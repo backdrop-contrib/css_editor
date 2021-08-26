@@ -6,6 +6,8 @@
 
 /**
  * Migrate css_editor variables to config.
+ *
+ * Useful for Drupal 7 to Backdrop CMS upgrades.
  */
 function css_editor_update_1000() {
   $config = config('css_editor.settings');
