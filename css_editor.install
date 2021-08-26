@@ -2,9 +2,7 @@
 /**
  * @file
  * Install, update and uninstall functions for the css_editor module.
- *
  */
-
 
 /**
  * Migrate css_editor variables to config.
@@ -15,11 +13,4 @@ function css_editor_update_1000() {
   $config->save();
 
   update_variable_del('css_editor_enabled_themes');
-}
-
-/**
- * Implements hook_install().
- */
-function css_editor_install() {
-  // Dynamically generated variable data was detected.
 }
