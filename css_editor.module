@@ -1,13 +1,24 @@
 <?php
 
 /**
+ * Implements hook_config_info().
+ */
+function css_editor_config_info() {
+  $prefixes['css_editor.settings'] = array(
+    'label' => t('CSS Editor settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_init().
  */
 function css_editor_init() {
   global $theme;
-  $enabled_themes = variable_get('css_editor_enabled_themes', array());
+  $enabled_themes = config_get('css_editor.settings', 'css_editor_enabled_themes');
   if (isset($enabled_themes[$theme]) && $enabled_themes[$theme] && !isset($_REQUEST['theme'])) {
-    drupal_add_css(theme_get_setting('css', $theme),
+    backdrop_add_css(theme_get_setting('css', $theme),
     array('type' => 'inline', 'weight' => 9999, 'group' => CSS_THEME));
   }
 }
@@ -20,9 +31,9 @@ function css_editor_menu() {
   $items['admin/config/user-interface/css-editor'] = array(
     'title' => t('CSS Editor'),
     'description' => t('General settings for custom CSS per theme.'),
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('css_editor_admin_settings'),
-    'access arguments' => array('administer site configuration'), 
+    'access arguments' => array('administer site configuration'),
   );
   return $items;
 }
@@ -32,33 +43,29 @@ function css_editor_menu() {
  */
 function css_editor_admin_settings() {
   $themes = array();
-  foreach(list_themes(TRUE) as $name => $theme) {
+  foreach (list_themes(TRUE) as $name => $theme) {
     if ($theme->status) {
       $themes[$name] = $name;
     }
   }
+  $form['#config'] = 'css_editor.settings';
   $form['css_editor_enabled_themes'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Enabled themes'),
     '#description' => t('Choose which themes can use the custom CSS feature.'),
     '#options' => $themes,
-    '#default_value' => variable_get('css_editor_enabled_themes', array()),
+    '#default_value' => config_get('css_editor.settings', 'css_editor_enabled_themes'),
   );
   $form = system_settings_form($form);
   return $form;
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for `system_theme_settings`.
+ * Implements hook_form_FORM_ID_alter() for `system_theme_settings`().
  */
 function css_editor_form_system_theme_settings_alter(&$form, &$form_state, $form_id) {
-  if (!(isset($form_state['build_info']) &&
-      isset($form_state['build_info']['args']) &&
-      isset($form_state['build_info']['args'][0]))) {
-    return;
-  }
-  $theme = $form_state['build_info']['args'][0];
-  $enabled_themes = variable_get('css_editor_enabled_themes', array());
+  $theme = arg(3);
+  $enabled_themes = config_get('css_editor.settings', 'css_editor_enabled_themes');
   if (isset($enabled_themes[$theme]) && $enabled_themes[$theme]) {
     $form['css'] = array(
       '#title' => t('Custom CSS'),
@@ -73,12 +80,12 @@ function css_editor_form_system_theme_settings_alter(&$form, &$form_state, $form
     $form['css_preview'] = array(
       '#markup' => '<iframe src="' . $preview_url . '" id="css-editor-preview">' . t('Frames are not supported.') . '</iframe>',
     );
-    drupal_add_js(drupal_get_path('module', 'css_editor') . '/lib/codemirror-3.11/lib/codemirror.js');
-    drupal_add_css(drupal_get_path('module', 'css_editor') . '/lib/codemirror-3.11/lib/codemirror.css');
-    drupal_add_js(drupal_get_path('module', 'css_editor') . '/lib/codemirror-3.11/mode/css/css.js');
-    drupal_add_js(drupal_get_path('module', 'css_editor') . '/js/css_editor.js');
-    drupal_add_css(drupal_get_path('module', 'css_editor') . '/css/css_editor.css');
-    drupal_add_js(array('CSSEditor' => array('frontPage' => $preview_url)), 'setting');
+    backdrop_add_js(backdrop_get_path('module', 'css_editor') . '/lib/codemirror-3.11/lib/codemirror.js');
+    backdrop_add_css(backdrop_get_path('module', 'css_editor') . '/lib/codemirror-3.11/lib/codemirror.css');
+    backdrop_add_js(backdrop_get_path('module', 'css_editor') . '/lib/codemirror-3.11/mode/css/css.js');
+    backdrop_add_js(backdrop_get_path('module', 'css_editor') . '/js/css_editor.js');
+    backdrop_add_css(backdrop_get_path('module', 'css_editor') . '/css/css_editor.css');
+    backdrop_add_js(array('CSSEditor' => array('frontPage' => $preview_url)), 'setting');
   }
 }
 

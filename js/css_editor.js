@@ -14,7 +14,7 @@ jQuery(function($) {
 
   var editor = createEditor();
 
-  $textarea.before('<input type="checkbox" id="css-editor-toggle-editor" /> <label for="css-editor-toggle-editor">' + Drupal.t('Use plain text editor') + '</label>');
+  $textarea.before('<input type="checkbox" id="css-editor-toggle-editor" /> <label for="css-editor-toggle-editor">' + Backdrop.t('Use plain text editor') + '</label>');
 
   $('#css-editor-toggle-editor').click(function() {
     if ($(this).is(':checked')) {
@@ -27,7 +27,7 @@ jQuery(function($) {
  
   // Preview
   var $preview = $('#css-editor-preview');
-  $textarea.before('<input type="checkbox" id="css-editor-toggle-preview" checked="checked" /> <label for="css-editor-toggle-preview">' + Drupal.t('Enable auto preview.') + '</label> <span>' + Drupal.t('Preview path:') + '</span> <input type="text" id="css-editor-preview-path" size="60" />');
+  $textarea.before('<input type="checkbox" id="css-editor-toggle-preview" checked="checked" /> <label for="css-editor-toggle-preview">' + Backdrop.t('Enable auto preview.') + '</label> <span>' + Backdrop.t('Preview path:') + '</span> <input type="text" id="css-editor-preview-path" size="60" />');
 
   $('#css-editor-toggle-preview').click(function() {
     if ($(this).is(':checked')) {
@@ -44,7 +44,7 @@ jQuery(function($) {
   $preview.load(function() { autoPreview(); });
 
   $('#css-editor-preview-path').blur(function() {
-    $preview.attr('src', Drupal.settings.CSSEditor.frontPage.replace('?', '/' + $(this).val() + '?'));
+    $preview.attr('src', Backdrop.settings.CSSEditor.frontPage.replace('?', '/' + $(this).val() + '?'));
   });
 
   var autoPreview = function() {
