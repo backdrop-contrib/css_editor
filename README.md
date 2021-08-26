@@ -61,10 +61,12 @@ Current Maintainers
 Credits
 -------
 
-- Ported to Backdrop CMS by [Justin Christoffersen](https://github.com/larsdesigns).
-- Originally written for Drupal by [Caio Almeida](https://github.com/caiosba).
-- Based on the [MagicalCode project](https://github.com/example).
-- Backdrop port sponsored by [Jeneration Web Development](https://www.jenerationweb.com/).
+- Ported to Backdrop CMS by
+  [Justin Christoffersen](https://github.com/larsdesigns).
+- Originally written for Drupal by
+  [Caio Almeida](https://github.com/caiosba).
+- Backdrop port sponsored by
+  [Jeneration Web Development](https://www.jenerationweb.com/).
 - Drupal module Sponsored by [Meedan](http://meedan.org).
 
 License
