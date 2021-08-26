@@ -76,7 +76,9 @@ function css_editor_form_system_theme_settings_alter(&$form, &$form_state, $form
       '#attributes' => array('id' => 'css-editor-textarea'),
       '#suffix' => '</div>',
     );
-    $preview_url = url('<front>', array('absolute' => TRUE, 'query' => array('theme' => $theme)));
+    $preview_url = url('<front>', array('absolute' => TRUE, 'query' => array(
+      'theme' => $theme,
+    )));
     $form['css_preview'] = array(
       '#markup' => '<iframe src="' . $preview_url . '" id="css-editor-preview">' . t('Frames are not supported.') . '</iframe>',
     );
@@ -94,8 +96,9 @@ function css_editor_form_system_theme_settings_alter(&$form, &$form_state, $form
  */
 function css_editor_custom_theme() {
   if (isset($_REQUEST['theme']) &&
-      isset($_SERVER['HTTP_REFERER']) &&
-      $_SERVER['HTTP_REFERER'] == url('admin/appearance/settings/' . $_REQUEST['theme'], array('absolute' => TRUE))) {
+      !empty(filter_input(INPUT_SERVER, 'HTTP_REFERER')) &&
+      filter_input(INPUT_SERVER, 'HTTP_REFERER') == url('admin/appearance/settings/' . $_REQUEST['theme'], array('absolute' => TRUE))) {
+
     return $_REQUEST['theme'];
   }
 }
