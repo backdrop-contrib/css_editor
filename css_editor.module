@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * CSS Editor.
+ */
+
+/**
  * Implements hook_config_info().
  */
 function css_editor_config_info() {
@@ -29,8 +34,8 @@ function css_editor_init() {
 function css_editor_menu() {
   $items = array();
   $items['admin/config/user-interface/css-editor'] = array(
-    'title' => t('CSS Editor'),
-    'description' => t('General settings for custom CSS per theme.'),
+    'title' => 'CSS Editor',
+    'description' => 'General settings for custom CSS per theme.',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('css_editor_admin_settings'),
     'access arguments' => array('administer site configuration'),
@@ -76,9 +81,12 @@ function css_editor_form_system_theme_settings_alter(&$form, &$form_state, $form
       '#attributes' => array('id' => 'css-editor-textarea'),
       '#suffix' => '</div>',
     );
-    $preview_url = url('<front>', array('absolute' => TRUE, 'query' => array(
-      'theme' => $theme,
-    )));
+    $preview_url = url('<front>', array(
+      'absolute' => TRUE,
+      'query' => array(
+        'theme' => $theme,
+      ),
+    ));
     $form['css_preview'] = array(
       '#markup' => '<iframe src="' . $preview_url . '" id="css-editor-preview">' . t('Frames are not supported.') . '</iframe>',
     );
