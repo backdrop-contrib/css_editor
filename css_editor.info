@@ -4,4 +4,3 @@ package = CSS Editor
 backdrop = 1.x
 type = module
 configure = admin/config/user-interface/css-editor
-
